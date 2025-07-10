@@ -24,8 +24,8 @@ const NavbarPage = () => {
 
                 {/* ✅ Desktop nav */}
                 <ul className="hidden md:flex space-x-6 text-lg font-medium text-white items-cnenter">
-                    <li><Link to="/board" className="hover:text-gray-300">Board</Link></li>
                     <li><Link to="/about" className="hover:text-gray-300">About</Link></li>
+                    <li><Link to="/board" className="hover:text-gray-300">Board</Link></li>
                     <li><Link to="/login" className="hover:text-gray-300">LogIn</Link></li>
                     <li><Link to="/signup" className="hover:text-gray-300">SignUp</Link></li>
                 </ul>
@@ -43,8 +43,8 @@ const NavbarPage = () => {
             {isOpen && (
                 <div className="md:hidden px-12 pb-6" ref={menuRef}>
                     <ul className="flex flex-col space-y-3 text-white text-sm font-bold">
-                        <li><Link to="/board" onClick={toggleMenu} className="hover:text-gray-300">Board</Link></li>
                         <li><Link to="/about" onClick={toggleMenu} className="hover:text-gray-300">About</Link></li>
+                        <li><Link to="/board" onClick={toggleMenu} className="hover:text-gray-300">Board</Link></li>
                         <li><Link to="/login" onClick={toggleMenu} className="hover:text-gray-300">LogIn</Link></li>
                         <li><Link to="/signup" onClick={toggleMenu} className="hover:text-gray-300">SignUp</Link></li>
                     </ul>
