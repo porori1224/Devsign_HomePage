@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSection from "../components/HeroSection.jsx";
 import NavbarPage from "./NavbarPage.jsx";
+import FooterSection from "../components/FooterSection.jsx";
 
 const MainPage = () => {
   return (
@@ -8,6 +9,7 @@ const MainPage = () => {
       <NavbarPage />
       <main>
         <HeroSection />
+        <FooterSection />
       </main>
     </div>
   );

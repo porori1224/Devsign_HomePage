@@ -11,9 +11,9 @@ const NavbarPage = () => {
     return (
         <motion.nav
             className="fixed top-0 left-0 w-full text-white z-50"
-            initial={{ opacity: 0, y: -30 }}
+            initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 1.0, ease: "easeInOut" }}
         >
             <nav className="max-w-8xl mx-auto px-12 py-8 flex items-center justify-between">
                 <div className="text-xl font-bold tracking-tight">
