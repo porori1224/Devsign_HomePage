@@ -1,3 +1,4 @@
+// 모바일 환경에서 네비게이션 바의 토글(열림/닫힘) 상태를 관리하는 커스텀 훅
 import { useState, useEffect, useRef } from "react";
 
 export default function useNavbarToggle() {

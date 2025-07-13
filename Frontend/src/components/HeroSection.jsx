@@ -17,7 +17,7 @@ const HeroSection = () => {
         className="text-md md:text-xl max-w-xl text-gray-300 font-Medium"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 1 }}
+        transition={{ delay: 0.8, duration: 1 }}
       >
         조선대학교 IT 동아리 DEVSIGN 홈페이지 방문을 환영합니다!
       </motion.p>
