@@ -4,15 +4,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { VscClose } from "react-icons/vsc";
 import useNavbarToggle from "../hooks/useNavbarToggle";
+import useScrollHideNavbar from "../hooks/useScrollhideNavbar";
 
 const NavbarPage = () => {
     const { isOpen, toggleMenu, menuRef } = useNavbarToggle();
+    const showNavbar = useScrollHideNavbar();
 
     return (
         <motion.nav
-            className="fixed top-0 left-0 w-full text-white z-50"
+            className={`fixed top-0 left-0 w-full text-white z-50 ${showNavbar ? "block" : "hidden"}`}
             initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: showNavbar ? 1 : 0, y: showNavbar ? 0 : -50 }}
             transition={{ duration: 1.0, ease: "easeInOut" }}
         >
             <nav className="max-w-8xl mx-auto px-12 py-8 flex items-center justify-between">
@@ -41,7 +43,7 @@ const NavbarPage = () => {
             </nav>
 
             {isOpen && (
-                <div className="md:hidden px-12 pb-6" ref={menuRef}>
+                <div className="inset-0 backdrop-blur-sm md:hidden px-12 pb-6" ref={menuRef}>
                     <ul className="flex flex-col space-y-3 text-white text-sm font-bold">
                         <li><Link to="/about" onClick={toggleMenu} className="hover:text-gray-300">About</Link></li>
                         <li><Link to="/board" onClick={toggleMenu} className="hover:text-gray-300">Board</Link></li>
