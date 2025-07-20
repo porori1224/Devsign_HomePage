@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.3'
+	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -21,30 +21,37 @@ configurations {
 
 repositories {
 	mavenCentral()
+	google()
 }
 
 dependencies {
-//	웹 기본
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Spring Boot Starter
+	implementation 'org.springframework.boot:spring-boot-starter-web'              // Web MVC
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'         // JPA & Hibernate
+	implementation 'org.springframework.boot:spring-boot-starter-security'         // Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-validation'       // Bean Validation
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//	보안
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	DB
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'       // Redis
+
+	// Swagger(OpenAPI)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+	// MySQL JDBC
 	runtimeOnly 'com.mysql:mysql-connector-j'
-//	검증
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-//	Lombok
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-//	Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-//	JWT
+
+	// JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
