@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kr.ac.devsign.HomePage.domain.entity.user.User;
 import kr.ac.devsign.HomePage.dto.user.UserRegisterRequestDto;
+import kr.ac.devsign.HomePage.dto.user.UserSummaryDto;
 import kr.ac.devsign.HomePage.infrastructure.common.CommonResponse;
 import kr.ac.devsign.HomePage.infrastructure.util.IpUtil;
 import kr.ac.devsign.HomePage.service.user.UserService;
@@ -36,7 +37,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<CommonResponse<String>> register(@RequestBody @Valid UserRegisterRequestDto dto, HttpServletRequest request) {
+    public ResponseEntity<CommonResponse<UserSummaryDto>> register(@RequestBody @Valid UserRegisterRequestDto dto, HttpServletRequest request) {
         try {
             String ip = IpUtil.getClientIp(request);
             Long userId = userService.register(dto, ip);
@@ -44,7 +45,9 @@ public class AuthController {
             // 회원가입 완료 인증서 발급
             User newUser = userService.findById(userId);
 
-            return ResponseEntity.ok(CommonResponse.success("회원가입이 완료되었습니다."));
+            UserSummaryDto summary = UserSummaryDto.from(newUser);
+
+            return ResponseEntity.ok(CommonResponse.success(summary,"회원가입이 완료되었습니다."));
         } catch (Exception e) {
             log.error("회원가입 처리 중 오류 발생", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

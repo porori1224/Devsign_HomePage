@@ -5,9 +5,7 @@ import kr.ac.devsign.HomePage.domain.entity.user.User;
 import kr.ac.devsign.HomePage.domain.repository.UserRepository;
 import kr.ac.devsign.HomePage.domain.repository.log.AuditRegisterLogRepository;
 import kr.ac.devsign.HomePage.dto.user.UserRegisterRequestDto;
-import kr.ac.devsign.HomePage.infrastructure.exception.DuplicateEmailException;
-import kr.ac.devsign.HomePage.infrastructure.exception.NotFoundException;
-import kr.ac.devsign.HomePage.infrastructure.exception.PasswordMismatchException;
+import kr.ac.devsign.HomePage.infrastructure.exception.*;
 import kr.ac.devsign.HomePage.infrastructure.security.EncryptionUtil;
 import kr.ac.devsign.HomePage.service.auth.EmailAuthService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +37,10 @@ public class UserService {
      */
     public Long register(UserRegisterRequestDto dto, String ipAddress) {
         try {
+            if (userRepository.existsByUserId(dto.getUserId())) {
+                auditRegisterLogRepository.save(AuditRegisterLog.failure(dto.getEmail(), ipAddress, "중복된 아이디"));
+                throw new DuplicateUserIdException("이미 사용 중인 아이디입니다.");
+            }
             if (userRepository.existsByEmail(dto.getEmail())) {
                 auditRegisterLogRepository.save(AuditRegisterLog.failure(dto.getEmail(), ipAddress, "중복된 이메일"));
                 throw new DuplicateEmailException("이미 사용 중인 이메일입니다.");
@@ -61,11 +63,9 @@ public class UserService {
                 auditRegisterLogRepository.save(AuditRegisterLog.failure(dto.getEmail(), ipAddress, "잘못된 전화번호 형식"));
                 throw new IllegalArgumentException("올바른 전화번호 형식이 아닙니다. (예: 010-1234-5678)");
             }
-
-            // 이메일 인증 확인
-            if (!emailAuthService.isAlreadyVerified(dto.getEmail())) {
-                auditRegisterLogRepository.save(AuditRegisterLog.failure(dto.getEmail(), ipAddress, "이메일 인증 미완료"));
-                throw new IllegalArgumentException("이메일 인증을 완료해주세요.");
+            if (userRepository.existsByDiscordId(dto.getDiscordId())) {
+                auditRegisterLogRepository.save(AuditRegisterLog.failure(dto.getEmail(), ipAddress, "중복된 디스코드 사용자명"));
+                throw new DuplicateDiscordIdException("이미 존재하는 디스코드 사용자명입니다.");
             }
 
             User user = User.builder()
@@ -98,8 +98,9 @@ public class UserService {
             auditRegisterLogRepository.save(AuditRegisterLog.success(dto.getEmail(), ipAddress));
             return user.getId();
         } catch (RuntimeException e) {
-            if (!(e instanceof DuplicateEmailException
-                    || e instanceof PasswordMismatchException || e instanceof IllegalArgumentException)) {
+            if (!(e instanceof DuplicateEmailException || e instanceof DuplicateUserIdException
+                    || e instanceof PasswordMismatchException || e instanceof IllegalArgumentException
+                    || e instanceof DuplicateDiscordIdException)) {
                 // 오류 메시지 길이 제한 (500자)
                 String errorMessage = e.getMessage();
                 if (errorMessage != null && errorMessage.length() > 450) {

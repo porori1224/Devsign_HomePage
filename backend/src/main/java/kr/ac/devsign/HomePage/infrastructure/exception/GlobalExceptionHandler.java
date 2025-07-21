@@ -32,6 +32,14 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 아이디 중복 예외
+     */
+    @ExceptionHandler(DuplicateUserIdException.class)
+    public ResponseEntity<CommonResponse<?>> handleDuplicateUserId(DuplicateUserIdException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.fail("이미 사용 중인 아이디입니다."));
+    }
+
+    /**
      * 이메일 중복 예외
      */
     @ExceptionHandler(DuplicateEmailException.class)
