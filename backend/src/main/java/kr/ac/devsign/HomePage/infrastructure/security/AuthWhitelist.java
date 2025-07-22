@@ -7,6 +7,7 @@ public class AuthWhitelist {
             "/posts",           // 게시글 목록 조회
             "/posts/*",         // 게시글 단건 조회
             "/users/*/profile", // 사용자 프로필 조회
+            "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",

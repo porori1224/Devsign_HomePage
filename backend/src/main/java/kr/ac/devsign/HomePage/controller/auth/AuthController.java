@@ -44,7 +44,6 @@ public class AuthController {
 
             // 회원가입 완료 인증서 발급
             User newUser = userService.findById(userId);
-
             UserSummaryDto summary = UserSummaryDto.from(newUser);
 
             return ResponseEntity.ok(CommonResponse.success(summary,"회원가입이 완료되었습니다."));
