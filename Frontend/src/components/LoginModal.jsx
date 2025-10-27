@@ -110,8 +110,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           Don&apos;t have an account?{" "}
           <a
             className="text-gray-100 hover:underline hover:decoration-purple-300"
-            href="#"
-            rel="noopener noreferrer"
+            href="/signup"
           >
             Sign up
           </a>
