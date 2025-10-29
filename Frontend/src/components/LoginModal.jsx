@@ -52,14 +52,14 @@ const LoginModal = ({ isOpen, onClose }) => {
           <div className="text-sm leading-5">
             <label
               className="mb-1 block text-gray-400"
-              htmlFor="username"
+              htmlFor="userId"
             >
-              UserName
+              UserId
             </label>
             <input
               className="w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300 font-roboto"
-              id="username"
-              name="username"
+              id="userid"
+              name="userId"
               placeholder=""
               type="text"
             />

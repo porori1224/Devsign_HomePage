@@ -5,18 +5,18 @@ const SignUpPage = () => {
   const initialValues = useMemo(
     () => ({
       name: "",
-      birthdate: "",
+      birth: "",
       studentId: "",
       department: "",
       phone: "",
       email: "",
-      residence: "",
-      address: "",
-      username: "",
+      currentAddress: "",
+      addressDetail: "",
+      userId: "",
       password: "",
-      discord: "",
+      discordId: "",
       interests: "",
-      certifications: "",
+      licenses: "",
       bio: "",
       privacy: false,
       policy: false,
@@ -37,16 +37,16 @@ const SignUpPage = () => {
   const requiredFields = useMemo(
     () => [
       "name",
-      "birthdate",
+      "birth",
       "studentId",
       "department",
       "phone",
       "email",
-      "residence",
-      "address",
-      "username",
+      "currentAddress",
+      "addressDetail",
+      "userId",
       "password",
-      "discord",
+      "discordId",
     ],
     []
   );
@@ -57,7 +57,7 @@ const SignUpPage = () => {
     let nextValue;
     if (type === "checkbox") {
       nextValue = checked;
-    } else if (name === "birthdate") {
+    } else if (name === "birth") {
       const digitsOnly = value.replace(/\D/g, "").slice(0, 8);
       if (digitsOnly.length <= 4) {
         nextValue = digitsOnly;
@@ -78,7 +78,7 @@ const SignUpPage = () => {
     } else if (name === "studentId") {
       const digitsOnly = value.replace(/\D/g, "").slice(0, 8);
       nextValue = digitsOnly;
-    } else if (name === "username") {
+    } else if (name === "userId") {
       nextValue = value;
       setUsernameStatus(null);
     } else if (name === "email") {
@@ -124,9 +124,10 @@ const SignUpPage = () => {
     closeModal();
   };
 
+  //TODO: 로그인 중복 확인 로직
   const handleUsernameCheck = () => {
-    const trimmed = formValues.username.trim();
-    setTouched((prev) => ({ ...prev, username: true }));
+    const trimmed = formValues.userId.trim();
+    setTouched((prev) => ({ ...prev, userId: true }));
 
     if (!trimmed) {
       setUsernameStatus({ type: "error", message: "아이디를 입력한 뒤 다시 시도해주세요." });
@@ -209,7 +210,7 @@ const SignUpPage = () => {
     }
 
     if (usernameStatus?.type !== "available") {
-      setTouched((prev) => ({ ...prev, username: true }));
+      setTouched((prev) => ({ ...prev, userId: true }));
       setUsernameStatus((prev) =>
         prev?.type === "error"
           ? prev
@@ -256,8 +257,8 @@ const SignUpPage = () => {
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="name">
-                  이름
+                <label className="mb-1 block text-slate-100" htmlFor="name">
+                  이름 (필수)
                   {renderHint("name")}
                 </label>
                 <input
@@ -273,25 +274,25 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="birthdate">
-                  생년월일
-                  {renderHint("birthdate")}
+                <label className="mb-1 block text-slate-100" htmlFor="birth">
+                  생년월일 (필수)
+                  {renderHint("birth")}
                 </label>
                 <input
-                  aria-invalid={isInvalid("birthdate")}
+                  aria-invalid={isInvalid("birth")}
                   className="font-roboto w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300"
-                  id="birthdate"
-                  name="birthdate"
+                  id="birth"
+                  name="birth"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   placeholder="YYYY-MM-DD 형식으로 입력하세요"
                   type="text"
-                  value={formValues.birthdate}
+                  value={formValues.birth}
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="studentId">
-                  학번
+                <label className="mb-1 block text-slate-100" htmlFor="studentId">
+                  학번 (필수)
                   {renderHint("studentId")}
                 </label>
                 <input
@@ -307,8 +308,8 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="department">
-                  학과
+                <label className="mb-1 block text-slate-100" htmlFor="department">
+                  학과 (필수)
                   {renderHint("department")}
                 </label>
                 <input
@@ -324,8 +325,8 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="phone">
-                  전화번호
+                <label className="mb-1 block text-slate-100" htmlFor="phone">
+                  전화번호 (필수)
                   {renderHint("phone")}
                 </label>
                 <input
@@ -341,8 +342,8 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="email">
-                  E-mail
+                <label className="mb-1 block text-slate-100" htmlFor="email">
+                  E-mail (필수)
                   {renderHint("email")}
                 </label>
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -368,19 +369,19 @@ const SignUpPage = () => {
                   </div>
                 </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="residence">
-                  현 거주지
-                  {renderHint("residence")}
+                <label className="mb-1 block text-slate-100" htmlFor="currentAddress">
+                  현 거주지 (필수)
+                  {renderHint("currentAddress")}
                 </label>
                 <div className="relative">
                   <select
-                    aria-invalid={isInvalid("residence")}
+                    aria-invalid={isInvalid("currentAddress")}
                     className="select-residence font-roboto w-full cursor-pointer appearance-none rounded-md px-4 py-3 pr-12 text-gray-100 outline-none"
-                    id="residence"
-                    name="residence"
+                    id="currentAddress"
+                    name="currentAddress"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={formValues.residence}
+                    value={formValues.currentAddress}
                   >
                     <option value="">선택하세요</option>
                     <option value="dorm">기숙사</option>
@@ -402,37 +403,37 @@ const SignUpPage = () => {
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="address">
-                  집 주소
-                  {renderHint("address")}
+                <label className="mb-1 block text-slate-100" htmlFor="addressDetail">
+                  집 주소 (필수)
+                  {renderHint("addressDetail")}
                 </label>
                 <input
-                  aria-invalid={isInvalid("address")}
+                  aria-invalid={isInvalid("addressDetail")}
                   className="font-roboto w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 pr-12 text-gray-100 outline-none focus:border-purple-300"
-                  id="address"
-                  name="address"
+                  id="addressDetail"
+                  name="addressDetail"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="text"
-                  value={formValues.address}
+                  value={formValues.addressDetail}
                   placeholder="상세 주소를 입력하세요"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="username">
-                  아이디
-                  {renderHint("username")}
+                <label className="mb-1 block text-slate-100" htmlFor="userId">
+                  아이디 (필수)
+                  {renderHint("userId")}
                 </label>
                 <div className="flex gap-2">
                   <input
-                    aria-invalid={isInvalid("username")}
+                    aria-invalid={isInvalid("userId")}
                     className="font-roboto w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300"
-                    id="username"
-                    name="username"
+                    id="userId"
+                    name="userId"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     type="text"
-                    value={formValues.username}
+                    value={formValues.userId}
                     placeholder="아이디를 입력하세요"
                   />
                   <button
@@ -460,8 +461,8 @@ const SignUpPage = () => {
                 )}
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="password">
-                  비밀번호
+                <label className="mb-1 block text-slate-100" htmlFor="password">
+                  비밀번호 (필수)
                   {renderHint("password")}
                 </label>
                 <input
@@ -477,25 +478,25 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-gray-400" htmlFor="discord">
-                  디스코드 사용자명
-                  {renderHint("discord")}
+                <label className="mb-1 block text-slate-100" htmlFor="discordId">
+                  디스코드 사용자명 (필수)
+                  {renderHint("discordId")}
                 </label>
                 <input
-                  aria-invalid={isInvalid("discord")}
+                  aria-invalid={isInvalid("discordId")}
                   className="font-roboto w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300"
-                  id="discord"
-                  name="discord"
+                  id="discordId"
+                  name="discordId"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="text"
-                  value={formValues.discord}
+                  value={formValues.discordId}
                   placeholder="username#0000"
                 />
               </div>
               <div>
                 <label className="mb-1 block text-gray-400" htmlFor="interests">
-                  관심분야
+                  관심분야 (선택)
                 </label>
                 <input
                   className="font-roboto w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300"
@@ -509,23 +510,23 @@ const SignUpPage = () => {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1 block text-gray-400" htmlFor="certifications">
-                  자격증
+                <label className="mb-1 block text-gray-400" htmlFor="licenses">
+                  자격증 (선택)
                 </label>
                 <input
                   className="font-roboto w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300"
-                  id="certifications"
-                  name="certifications"
+                  id="licenses"
+                  name="licenses"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="text"
-                  value={formValues.certifications}
+                  value={formValues.licenses}
                   placeholder="보유 자격증을 입력하세요"
                 />
               </div>
               <div className="sm:col-span-2">
                 <label className="mb-1 block text-gray-400" htmlFor="bio">
-                  자기소개
+                  자기소개 (선택)
                 </label>
                 <textarea
                   className="font-roboto h-32 w-full rounded-md border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-purple-300"
@@ -559,7 +560,7 @@ const SignUpPage = () => {
                     onClick={() => openModal("privacy")}
                     type="button"
                   >
-                    개인정보 이용약관에 동의합니다.(필수)
+                    개인정보 이용약관에 동의합니다. (필수)
                   </button>
                   {renderHint("privacy", "block pt-1 text-[10px] text-purple-300")}
                 </div>
@@ -583,7 +584,7 @@ const SignUpPage = () => {
                     onClick={() => openModal("policy")}
                     type="button"
                   >
-                    개인정보 처리방침에 동의합니다.(필수)
+                    개인정보 처리방침에 동의합니다. (필수)
                   </button>
                   {renderHint("policy", "block pt-1 text-[10px] text-purple-300")}
                 </div>
